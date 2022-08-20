@@ -11,15 +11,15 @@ import { Error } from '../components/Error';
 export default function Home(): JSX.Element {
   const {
     data,
-    isLoading,
+    isLoading = true,
     isError,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    'images',
+    'images'
     // TODO AXIOS REQUEST WITH PARAM
-    ,
+
     // TODO GET AND RETURN NEXT PAGE PARAM
   );
 
@@ -27,9 +27,17 @@ export default function Home(): JSX.Element {
     // TODO FORMAT AND FLAT DATA ARRAY
   }, [data]);
 
-  // TODO RENDER LOADING SCREEN
+  function LoadingData(): JSX.Element {
+    if (isLoading === true) {
+      return <Loading />;
+    }
 
-  // TODO RENDER ERROR SCREEN
+    if (isError) {
+      return <Error />;
+    }
+
+    return <h1>carregado</h1>;
+  }
 
   return (
     <>
@@ -38,6 +46,7 @@ export default function Home(): JSX.Element {
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
         {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
+        {LoadingData()}
       </Box>
     </>
   );
